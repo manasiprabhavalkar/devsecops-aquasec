@@ -362,7 +362,7 @@ Resources:
 
   FargateService:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerListener 
+    DependsOn: LoadBalancerListener
     Condition: Fargate
     Properties:
       Cluster: !Ref Cluster
@@ -382,7 +382,7 @@ Resources:
 
   EC2Service:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerListener 
+    DependsOn: LoadBalancerListener
     Condition: EC2
     Properties:
       Cluster: !Ref Cluster
@@ -532,7 +532,23 @@ Resources:
         Type: CODEPIPELINE
       Source:
         Type: CODEPIPELINE
-        BuildSpec: 
+        BuildSpec: |
+          version: 0.2
+          phases:
+            pre_build:
+              commands:
+                - $(aws ecr get-login --no-include-email)
+                - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+                - IMAGE_URI="${REPOSITORY_URI}:${TAG}"
+            build:
+              commands:
+                - docker build --tag "$IMAGE_URI" .
+            post_build:
+              commands:
+                - docker push "$IMAGE_URI"
+                - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+          artifacts:
+            files: images.json
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/docker:17.09.0
