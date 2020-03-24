@@ -362,7 +362,7 @@ Resources:
 
   FargateService:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerListener
+    DependsOn: LoadBalancerListener 
     Condition: Fargate
     Properties:
       Cluster: !Ref Cluster
@@ -382,7 +382,7 @@ Resources:
 
   EC2Service:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerListener
+    DependsOn: LoadBalancerListener 
     Condition: EC2
     Properties:
       Cluster: !Ref Cluster
