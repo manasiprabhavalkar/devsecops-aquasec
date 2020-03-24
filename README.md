@@ -1,4 +1,4 @@
-# AWS - Twistlock | DEVSECOPS Worskhop
+# AWS - Twistlock | Worskhop
 ## Objectives
 
     
