@@ -3,7 +3,7 @@ DEVSECOPS_STACK="devsecops-stack"
 REGION="us-west-2"
 GITHUB_USER="ibuchh"
 GITHUB_REPO="devsecops-twistlock"
-GITHUB_TOKEN="3fa57c8dd09f323144e20184f38e5bccbdebce52"
+GITHUB_TOKEN=""
 # create the base VPC and Subnets (public and private)
 aws --region $REGION cloudformation create-stack \
 --stack-name ${DEVSECOPS_STACK} \
