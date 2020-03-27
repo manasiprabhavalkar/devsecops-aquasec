@@ -2,7 +2,7 @@
 DEVSECOPS_STACK="devsecops-stack"
 REGION="us-west-2"
 GITHUB_USER="ibuchh"
-GITHUB_REPO="devsecops-twistlock"
+GITHUB_REPO="devsecops-aquasec"
 GITHUB_TOKEN=""
 # create the base VPC, Subnets, ECS (Fragate) cluster, CodePipeline and ECR
 aws --region $REGION cloudformation create-stack \
