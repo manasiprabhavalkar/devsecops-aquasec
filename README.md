@@ -1,9 +1,9 @@
-# AWS - Twistlock | Worskhop
+# AWS - Aquasec | Worskhop
 ## Objectives
 
 * Learn where to add security testing to a CI/CD pipeline
 * Learn about AWS services used to orchestrate testing
-* Gain familiarity with the Twistlock Security
+* Gain familiarity with the Aquasec Security
 
 
 

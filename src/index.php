@@ -15,7 +15,7 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h2>AWS - Twistlock | Worskhop</h2>
+                <h2>AWS - Aquasec | Worskhop</h2>
                 <br />
                 <h3>Congratulations</h3>
                 <br />
