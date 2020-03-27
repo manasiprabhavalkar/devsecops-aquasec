@@ -21,7 +21,7 @@ phases:
       - docker build --tag "$IMAGE_URI" .
       - docker build --tag $REPOSITORY_URI:latest .
       - echo build Docker image complete `date`
-      - ./scannercli scan --host $AQUA_URL --user $AQUA_USER --password $AQUA_PASSWORD --local $REPOSITORY_URI:$CODEBUILD_BUILD_NUMBER --no-verify --htmlfile out.html
+      - ./scannercli scan --host $AQUA_URL --user $AQUA_USER --password $AQUA_PASSWORD --local $REPOSITORY_URI:latest --no-verify --htmlfile out.html
       - docker push "$IMAGE_URI"
       - docker push $REPOSITORY_URI:latest
       - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
