@@ -11,6 +11,8 @@ phases:
       - $(aws ecr get-login --no-include-email)
       - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - IMAGE_URI="${REPOSITORY_URI}:${TAG}"
+      - wget https://community-aqua-reports.s3.amazonaws.com/scannercli
+      - chmod +x scannercli
     finally:
       - echo This always runs even if the login command fails
   build:
@@ -18,11 +20,16 @@ phases:
       - echo build Docker image on `date`
       - docker build --tag "$IMAGE_URI" .
       - docker build --tag $REPOSITORY_URI:latest .
-  post_build:
-    commands:
       - echo build Docker image complete `date`
+      - ./scannercli scan --host $AQUA_URL --user $AQUA_USER --password $AQUA_PASSWORD --local $REPOSITORY_URI:$CODEBUILD_BUILD_NUMBER --no-verify --htmlfile out.html
       - docker push "$IMAGE_URI"
       - docker push $REPOSITORY_URI:latest
       - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+  post_build:
+    commands:
+      - echo Entered post-build phase..
 artifacts:
-  files: images.json
+  files: 
+    - images.json
+    - out.html
+  name: build-${CODEBUILD_BUILD_NUMBER}
