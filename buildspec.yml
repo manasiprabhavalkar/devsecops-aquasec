@@ -30,6 +30,5 @@ phases:
       - echo Entered post-build phase..
 artifacts:
   files: 
-    - images.json
     - out.html
   name: build-${CODEBUILD_BUILD_NUMBER}
