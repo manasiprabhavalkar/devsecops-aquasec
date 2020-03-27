@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    DOCKER_REPO_USER: "ibuchh"
+    DOCKER_REPO_NAME: "devsecops-aqua"
+phases:
+  pre_build:
+    commands:
+      - echo Entered the pre_build phase..
+      - $(aws ecr get-login --no-include-email)
+      - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+      - IMAGE_URI="${REPOSITORY_URI}:${TAG}
+    finally:
+      - echo This always runs even if the login command fails
+  build:
+    commands:
+      - echo build Docker image on `date`
+      - docker build --tag "$IMAGE_URI" .
+      - docker build --tag $REPOSITORY_URI:latest .
+  post_build:
+    commands:
+      - echo build Docker image complete `date`
+      - docker push "$IMAGE_URI"
+      - docker push $REPOSITORY_URI:latest
+      - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+artifacts:
+  files: images.json
