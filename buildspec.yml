@@ -15,7 +15,7 @@ phases:
       - wget https://aqua-binary.s3.amazonaws.com/microenforcer
       - wget https://get.aquasec.com/aquactl/stable/aquactl
       - chmod +x aquactl
-      - chmod +x microenforcer
+#      - chmod +x microenforcer
       - chmod +x scannercli
     finally:
       - echo This always runs even if the login command fails
