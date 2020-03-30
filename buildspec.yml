@@ -30,7 +30,7 @@ phases:
       - ./aquactl inject --src-image $IMAGE_URI --dst-image $REPOSITORY_URI:latest --microenforcer-binary ./microenforcer
       - docker push $REPOSITORY_URI:latest
 #      - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
-      - printf '[{"name":"simple-app","imageUri":"%s","environment" : [{ "name" : "AQUA_SERVER", "value" : "a806eee96df2a422884c4dc5f27cb3b0-98097825.us-east-1.elb.amazonaws.com:3622" },{ "name" : "AQUA_TOKEN", "value" : "aqua_fargate" },{ "name" : "AQUA_LOGICAL_NAME", "value" : "" }]}]' "$REPOSITORY_URI:latest" > images.json
+      - printf '[{"name":"simple-app","imageUri":"%s","environment":[{"name":"AQUA_SERVER","value":"a806eee96df2a422884c4dc5f27cb3b0-98097825.us-east-1.elb.amazonaws.com:3622"},{"name":"AQUA_TOKEN","value":"aqua_fargate"},{"name":"AQUA_LOGICAL_NAME","value":""}]}]' "$REPOSITORY_URI:latest" > images.json
   post_build:
     commands:
       - echo Entered post-build phase..
