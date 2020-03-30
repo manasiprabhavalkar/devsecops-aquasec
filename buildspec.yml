@@ -12,6 +12,8 @@ phases:
       - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - IMAGE_URI="${REPOSITORY_URI}:${TAG}"
       - wget https://community-aqua-reports.s3.amazonaws.com/scannercli
+      - wget https://get.aquasec.com/aquactl/stable/aquactl
+      - chmod +x aquactl
       - chmod +x scannercli
     finally:
       - echo This always runs even if the login command fails
@@ -19,12 +21,14 @@ phases:
     commands:
       - echo build Docker image on `date`
       - docker build --tag "$IMAGE_URI" .
-      - docker build --tag $REPOSITORY_URI:latest .
+#      - docker build --tag $REPOSITORY_URI:latest .
       - echo build Docker image complete `date`
-      - ./scannercli scan --host $AQUA_URL --user $AQUA_USER --password $AQUA_PASSWORD --local $REPOSITORY_URI:latest --no-verify --htmlfile out.html
-      - docker push "$IMAGE_URI"
+      - ./scannercli scan --host $AQUA_URL --user $AQUA_USER --password $AQUA_PASSWORD --local $IMAGE_URI --no-verify --htmlfile out.html
+#      - docker push "$IMAGE_URI"
+      - ./aquactl inject --src-image $IMAGE_URI --dst-image $REPOSITORY_URI:latest --microenforcer-binary ./microenforcer
       - docker push $REPOSITORY_URI:latest
-      - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+#      - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+      - printf '[{"name":"simple-app","imageUri":"%s"}]' "$REPOSITORY_URI:latest" > images.json
   post_build:
     commands:
       - echo Entered post-build phase..
